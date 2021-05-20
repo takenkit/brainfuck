@@ -7,14 +7,14 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("Please specify a file as an argument.");
+        printf("Please specify a file as an argument.\n");
         exit(-1);
     }
 
     FILE *fp = fopen(argv[1], "r");
     if (!fp)
     {
-        printf("Could not open file \'%s\'", argv[1]);
+        printf("Could not open file: \'%s\'\n", argv[1]);
         exit(-1);
     }
 
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     ptr = (char *)calloc(ARRAY_SIZE, sizeof(char));
     if (ptr == NULL)
     {
-        printf("Could not allocate memory");
+        printf("Could not allocate memory.\n");
         exit(-1);
     }
 
