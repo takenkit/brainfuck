@@ -1,56 +1,14 @@
-#define GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
-
 #define ARRAY_SIZE 30000
 
-typedef struct source
-{
-    char chars;
-    int len;
-} source;
-
-source src;
-
-// 
-void editorAppendRow(char *s, size_t len)
-{
-    s = realloc(s, sizeof(char) * len);
-    E.row[at].size = len;
-    E.row[at].chars = malloc(len + 1);
-    memcpy(E., s, len);
-    E.row[at].chars[len] = '\0';
-}
-
-void editorOpen(char *filename)
-{
-    FILE *fp = fopen(filename, "r");
-    if (!fp)
-    {
-        printf("could not open %s", argv[1]);
-        exit(-1);
-    }
-
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t linelen;
-    while ((linelen = getline(&line, &len, fp)) != -1)
-    {
-        editorAppendRow(line, linelen);
-    }
-    free(line);
-    fclose(fp);
-}
 
 int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        
-    }
-    if (argc >= 2)
-    {
-
+        printf("Please specify a file as an argument.");
+        exit(-1);
     }
 
     FILE *fp = fopen(argv[1], "r");
@@ -59,6 +17,7 @@ int main(int argc, char *argv[])
         printf("could not open %s", argv[1]);
         exit(-1);
     }
+
     int n = 0;
     while (fgetc(fp) != EOF) 
     {
@@ -74,8 +33,6 @@ int main(int argc, char *argv[])
         *sp = c;
         sp++;
     }
-    *sp = '\0';
-
     fclose(fp);
 
     char *ptr;
@@ -104,25 +61,24 @@ int main(int argc, char *argv[])
             (*ptr)--;
             break;
         case '.':
-            //putchar(*ptr);
-            printf("%d ", *ptr);
+            putchar(*ptr);
             break;
         case ',':
             *ptr = getchar();
             break;
-        case '{':
+        case '[':
             if (*ptr == 0)
             {
-                while (s[i] != '}')
+                while (s[i] != ']')
                 {
                     i++;
                 }
             }
             break;
-        case '}':
+        case ']':
             if (*ptr != 0)
             {
-                while (s[i] != '{')
+                while (s[i] != '[')
                 {
                     i--;
                 }
@@ -136,8 +92,6 @@ int main(int argc, char *argv[])
 
     free(s);
     free(ptr);
-
-    printf("\n");
 
     return 0;
 }
