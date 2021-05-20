@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     FILE *fp = fopen(argv[1], "r");
     if (!fp)
     {
-        printf("could not open %s", argv[1]);
+        printf("Could not open file \'%s\'", argv[1]);
         exit(-1);
     }
 
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     ptr = (char *)calloc(ARRAY_SIZE, sizeof(char));
     if (ptr == NULL)
     {
-        printf("could not allocate memory");
+        printf("Could not allocate memory");
         exit(-1);
     }
 
