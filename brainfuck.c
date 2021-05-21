@@ -17,20 +17,20 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-    int n = 0;
+    size_t srclen = 0;
     while (fgetc(fp) != EOF) 
     {
-        n++;
+        srclen++;
     }
     fseek(fp, 0, SEEK_SET);
 
-    char *source = (char *)calloc((n + 1), sizeof(char));
-    if (source == NULL)
+    char *src = (char *)calloc((srclen + 1), sizeof(char));
+    if (src == NULL)
     {
         printf("Could not allocate memory.\n");
         exit(-1);
     }
-    char *sp = source;
+    char *sp = src;
     char c;
     while ((c = fgetc(fp)) != EOF)
     {
@@ -39,79 +39,81 @@ int main(int argc, char *argv[])
     }
     fclose(fp);
 
-    char *arr;
-    size_t capacity = 30000;
-    arr = (char *)calloc(capacity, sizeof(char));
-    if (arr == NULL)
+    char *ptr;
+    size_t len = 30000;
+    ptr = (char *)calloc(len, sizeof(char));
+    if (ptr == NULL)
     {
         printf("Could not allocate memory.\n");
         exit(-1);
     }
 
-    int i = 0;
-    size_t pos = 0;
-    while (source[i] != '\0')
+    size_t srcpos = 0;
+    size_t ptrpos = 0;
+    while (srcpos < srclen)
     {
-        switch (source[i])
+        switch (src[srcpos])
         {
         case '>':
-            arr++;
-            pos++;
+            ptr++;
+            ptrpos++;
             break;
         case '<':
-            arr--;
-            pos--;
+            ptr--;
+            ptrpos--;
             break;
         case '+':
-            (*arr)++;
+            (*ptr)++;
             break;
         case '-':
-            (*arr)--;
+            (*ptr)--;
             break;
         case '.':
-            putchar(*arr);
+            putchar(*ptr);
             break;
         case ',':
-            *arr = getchar();
+            *ptr = getchar();
             break;
         case '[':
-            if (*arr == 0)
+            if (*ptr == 0)
             {
-                while (source[i] != ']')
+                while (src[srcpos] != ']')
                 {
-                    i++;
+                    srcpos++;
                 }
             }
             break;
         case ']':
-            if (*arr != 0)
+            if (*ptr != 0)
             {
-                while (source[i] != '[')
+                while (src[srcpos] != '[')
                 {
-                    i--;
+                    srcpos--;
                 }
             }
             break;
         default:
             break;
         }
-        i++;
 
-        if (pos == capacity - 1)
+        if (ptrpos == len - 1)
         {
-            char *tmp = realloc(arr, capacity + 256);
+            char *tmp = realloc(ptr, len + 256);
             if (tmp == NULL)
             {
-                free(arr);
-                printf("Could not allocate memory.\n");
+                free(ptr);
+                printf("Could not reallocate memory.\n");
                 exit(-1);
             }
-            arr = tmp;
+            ptr = tmp;
+            len += 256;
         }
+
+        srcpos++;
     }
 
-    free(source);
-    free(arr);
+    free(src);
+    //free(ptr);// Segmentation fault
 
     return 0;
 }
