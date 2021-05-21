@@ -39,14 +39,14 @@ int main(int argc, char *argv[])
     }
     fclose(fp);
 
-    char *ptr;
     size_t len = 30000;
-    ptr = (char *)calloc(len, sizeof(char));
-    if (ptr == NULL)
+    char *arr = (char *)calloc(len, sizeof(char));
+    if (arr == NULL)
     {
         printf("Could not allocate memory.\n");
         exit(-1);
     }
+    char *ptr = arr;// trying not to raise a segmentation fault when the array is deallocated memory. 
 
     size_t srcpos = 0;
     size_t ptrpos = 0;
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     }
 
     free(src);
-    //free(ptr);// Segmentation fault
+    free(arr);
 
     return 0;
 }
