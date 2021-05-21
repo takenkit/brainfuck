@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
             if (tmp == NULL)
             {
                 free(ptr);
-                printf("Could not reallocate memory.\n");
+                printf("Could not reallocate memory any more.\n");
                 exit(-1);
             }
             ptr = tmp;
