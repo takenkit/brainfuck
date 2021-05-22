@@ -54,48 +54,64 @@ int main(int argc, char *argv[])
     {
         switch (src[srcpos])
         {
-        case '>':
-            ptr++;
-            ptrpos++;
-            break;
-        case '<':
-            ptr--;
-            ptrpos--;
-            break;
-        case '+':
-            (*ptr)++;
-            break;
-        case '-':
-            (*ptr)--;
-            break;
-        case '.':
-            putchar(*ptr);
-            break;
-        case ',':
-            *ptr = getchar();
-            break;
-        case '[':
-            if (*ptr == 0)
-            {
-                while (src[srcpos] != ']')
+            case '>':
+                ptr++;
+                break;
+            case '<':
+                ptr--;
+                break;
+            case '+':
+                (*ptr)++;
+                break;
+            case '-':
+                (*ptr)--;
+                break;
+            case '.':
+                putchar(*ptr);
+                break;
+            case ',':
+                *ptr = getchar();
+                break;
+            case '[':
+                if (*ptr == 0)
                 {
-                    srcpos++;
+                    size_t depth = 1;
+                    while (depth > 0)
+                    {
+                        srcpos++;
+                        if (src[srcpos] == '[')
+                        {
+                            depth++;
+                        }
+                        else if (src[srcpos] == ']')
+                        {
+                            depth--;
+                        }
+                    }
                 }
-            }
-            break;
-        case ']':
-            if (*ptr != 0)
-            {
-                while (src[srcpos] != '[')
+                break;
+            case ']':
+                if (*ptr != 0)
                 {
-                    srcpos--;
+                    size_t depth = 1;
+                    while (depth > 0)
+                    {
+                        srcpos--;
+                        if (src[srcpos] == '[')
+                        {
+                            depth--;
+                        }
+                        else if (src[srcpos] == ']')
+                        {
+                            depth++;
+                        }
+                    }
                 }
-            }
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
         }
-
+        
         if (ptrpos == len - 1)
         {
             char *tmp = realloc(ptr, len + 256);
